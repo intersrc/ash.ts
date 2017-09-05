@@ -21,7 +21,6 @@ export class MotionControlSystem extends ListIteratingSystem<MotionControlNode>
 
         if( this.keyPoll.isDown( control.left ) )
         {
-            console.log( 'left' );
             position.rotation -= control.rotationRate * time;
         }
 

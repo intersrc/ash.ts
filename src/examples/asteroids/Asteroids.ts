@@ -2,6 +2,7 @@ import { Engine, RAFTickProvider } from 'ash';
 
 import { EntityCreator } from './EntityCreator';
 import { GameConfig } from './GameConfig';
+
 import { KeyPoll } from './KeyPoll';
 
 import { AnimationSystem } from './systems/AnimationSystem';
@@ -17,7 +18,6 @@ import { MovementSystem } from './systems/MovementSystem';
 import { RenderSystem } from './systems/RenderSystem';
 import { SystemPriorities } from './systems/SystemPriorities';
 import { WaitForStartSystem } from './systems/WaitForStartSystem';
-
 
 export class Asteroids
 {
@@ -59,7 +59,7 @@ export class Asteroids
     public start():void
     {
         this.tickProvider = new RAFTickProvider();
-        this.tickProvider.add( delta => this.engine.update( delta ) );
+        this.tickProvider.add( ( delta:number ) => this.engine.update( delta ) );
         this.tickProvider.start();
     }
 }
