@@ -17,12 +17,14 @@ const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 
 const DIST = 'dist';
 const HOST = process.env.HOST || 'localhost';
-let PORT = +process.env.DEV_PORT || 3000;
+const PORT = +process.env.DEV_PORT || 3000;
+
 const getConfig = configName => {
     return {
         name: configName,
+
         entry: {
-            [configName]: [
+            [ configName ]: [
                 path.resolve( __dirname, 'src', 'examples', configName ),
                 `webpack-hot-middleware/client?name=${configName}&reload=true`
             ]
@@ -37,14 +39,14 @@ const getConfig = configName => {
 
             // file name pattern for entry scripts
             filename: '[name].js',
-
-            // file name pattern for chunk scripts
-            chunkFilename: '[name].js'
         },
 
         devtool: 'inline-source-map',
+
         resolve: {
-            extensions: [ '.js', '.ts' ],
+            extensions: [ '.ts', '.js' ],
+
+            // For simplified usage in examples, eg. import { Engine } from 'ash';
             alias: {
                 ash: path.resolve( __dirname, 'src', 'ash' )
             }
@@ -58,13 +60,12 @@ const getConfig = configName => {
                     use: {
                         loader: 'ts-loader'
                     }
-                },
+                }
             ]
         },
 
         plugins: [
             new CleanWebpackPlugin( `${DIST}/${configName}` ),
-            new webpack.DefinePlugin( { 'process.env.NODE_ENV': '"development"' } ),
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoEmitOnErrorsPlugin(),
             new HtmlWebpackPlugin( {
@@ -75,8 +76,7 @@ const getConfig = configName => {
     };
 };
 
-let asteroids = getConfig( 'asteroids' );
 module.exports = [
-    asteroids
+    getConfig( 'asteroids' )
 ];
 

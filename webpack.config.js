@@ -10,59 +10,91 @@
  *
  */
 
+const path = require( 'path' );
 const webpack = require( 'webpack' );
+const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
 
-const config = require( './webpack.config.base' );
+const DIST = 'dist';
 
-config.devtool = 'none';
+module.exports = {
 
-config.plugins.push(
-    new webpack.DefinePlugin( { 'process.env.NODE_ENV': '"production"' } ),
-    new webpack.LoaderOptionsPlugin( { minimize: true, debug: false } ),
-    // new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.CommonsChunkPlugin( {
-        name: 'ash',
-        filename: 'ash.js',
-        minChunks: module => module.context && (module.context.indexOf( 'ash' ) !== -1)
-    } ),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.UglifyJsPlugin( {
-        compress: {
-            warnings: false,
-            screw_ie8: true,
-            conditionals: true,
-            unused: true,
-            comparisons: true,
-            sequences: true,
-            dead_code: true,
-            evaluate: true,
-            if_return: true,
-            join_vars: true,
-        },
-        output: {
-            comments: false
-        },
-    } ),
-    new DtsBundlePlugin( {
-        name: 'ash',
-        main: 'dist/src/ash',
-        baseDir: 'dist/src/ash',
-        out: '../../ash.d.ts',
-        removeSource: true,
-        removeSourceDir: 'dist/src',
-        outputAsModuleFolder: false // to use npm in-package typings
-    } )
-);
+    entry: {
+        ash: [ path.resolve( __dirname, 'src/ash' ) ]
+    },
 
-module.exports = config;
+    output: {
+        library: 'ash',
+
+        libraryTarget: 'window',
+
+        // filesystem path for static files
+        path: path.resolve( __dirname, DIST ),
+
+        // file name pattern for entry scripts
+        filename: '[name].js'
+    },
+
+    devtool: 'none',
+
+    resolve: {
+        extensions: [ '.ts' ]
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                exclude: '/node_modules/',
+                use: [
+                    {
+                        loader: 'ts-loader'
+                    }
+                ]
+            }
+        ]
+    },
+
+    plugins: [
+        new CleanWebpackPlugin( DIST ),
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.optimize.UglifyJsPlugin( {
+            compress: {
+                warnings: false,
+                screw_ie8: true,
+                conditionals: true,
+                unused: true,
+                comparisons: true,
+                sequences: true,
+                dead_code: true,
+                evaluate: true,
+                if_return: true,
+                join_vars: true,
+            },
+            output: {
+                comments: false
+            },
+        } ),
+        new DtsBundlePlugin( {
+            name: 'ash',
+            main: 'dist/src/ash',
+            baseDir: 'dist/src/ash',
+            out: '../../ash.d.ts',
+            removeSource: true,
+            removeSourceDir: 'dist/src',
+            outputAsModuleFolder: false // to use npm in-package typings
+        } )
+    ]
+};
+
 
 // https://medium.com/@vladimirtolstikov/how-to-merge-d-ts-typings-with-dts-bundle-and-webpack-e8903d699576#.bzfvru3ex
 function DtsBundlePlugin( opts ) {
     this.opts = opts;
 }
+
 DtsBundlePlugin.prototype.apply = function( compiler ) {
     compiler.plugin( 'done', () => {
-        let {opts} = this;
+        let { opts } = this;
         require( 'dts-bundle' ).bundle( opts );
         if( opts.removeSource && opts.removeSourceDir ) require( 'rimraf' )( opts.removeSourceDir, () => {} );
     } );
