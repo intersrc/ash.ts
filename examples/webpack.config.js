@@ -19,13 +19,13 @@ const DIST = 'dist';
 const HOST = process.env.HOST || 'localhost';
 const PORT = +process.env.DEV_PORT || 3000;
 
-const getConfig = configName => {
+module.exports = configName => {
     return {
         name: configName,
 
         entry: {
             [ configName ]: [
-                path.resolve( __dirname, 'src', 'examples', configName ),
+                path.resolve( __dirname, configName ),
                 `webpack-hot-middleware/client?name=${configName}&reload=true`
             ]
         },
@@ -44,11 +44,11 @@ const getConfig = configName => {
         devtool: 'inline-source-map',
 
         resolve: {
-            extensions: [ '.ts', '.js' ],
+            extensions: [ '.js', '.ts' ],
 
             // For simplified usage in examples, eg. import { Engine } from 'ash';
             alias: {
-                ash: path.resolve( __dirname, 'src', 'ash' )
+                ash: path.resolve( __dirname, '..', 'src', 'ash' )
             }
         },
 
@@ -70,13 +70,10 @@ const getConfig = configName => {
             new webpack.NoEmitOnErrorsPlugin(),
             new HtmlWebpackPlugin( {
                 filename: 'index.html',
-                template: path.resolve( __dirname, 'src/examples', configName, 'index.ejs' )
+                template: path.resolve( __dirname, configName, 'index.ejs' )
             } )
         ]
     };
 };
 
-module.exports = [
-    getConfig( 'asteroids' )
-];
 

@@ -16,20 +16,20 @@ module.exports = function( config ) {
 
         // list of files / patterns to load in the browser
         files: [
-            'tests/*.ts'
+            './**/*.ts'
         ],
 
         // list of files to exclude
         exclude: [],
 
         mime: {
-            'text/x-typescript': ['ts','tsx']
+            'text/x-typescript': [ 'ts' ]
         },
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'tests/**/*.ts': [ 'webpack' ]
+            './**/*.ts': [ 'webpack' ]
         },
 
         // test results reporter to use
@@ -78,8 +78,27 @@ module.exports = function( config ) {
         ],
 
         webpack: {
-            module: webpackConfig.module,
-            resolve: webpackConfig.resolve
+            module: {
+                rules: [
+                    {
+                        test: /\.ts$/,
+                        exclude: '/node_modules/',
+                        use: [
+                            {
+                                loader: 'ts-loader'
+                            }
+                        ]
+                    }
+                ]
+            },
+            resolve: {
+                extensions: [ '.ts', '.js' ],
+
+                // For simplified usage in examples, eg. import { Engine } from 'ash';
+                alias: {
+                    ash: '../src/ash'
+                }
+            }
         }
     } );
 };

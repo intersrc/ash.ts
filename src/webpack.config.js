@@ -14,21 +14,22 @@ const path = require( 'path' );
 const webpack = require( 'webpack' );
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
 
-const DIST = 'dist';
+const ROOT = path.resolve( __dirname, '..' );
+const DIST = path.resolve( ROOT, 'dist' );
 
 module.exports = {
 
     entry: {
-        ash: [ path.resolve( __dirname, 'src/ash' ) ]
+        ash: [ path.resolve( __dirname, 'ash' ) ]
     },
 
     output: {
         library: 'ash',
 
-        libraryTarget: 'window',
+        libraryTarget: 'umd',
 
         // filesystem path for static files
-        path: path.resolve( __dirname, DIST ),
+        path: DIST,
 
         // file name pattern for entry scripts
         filename: '[name].js'
@@ -55,7 +56,7 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin( DIST ),
+        new CleanWebpackPlugin( DIST, { root: ROOT } ),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.UglifyJsPlugin( {
             compress: {
