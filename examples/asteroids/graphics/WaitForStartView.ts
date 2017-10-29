@@ -1,5 +1,5 @@
 import { SVGView } from './SVGView';
-import { Signal0 } from '../ash';
+import { Signal0 } from 'ash';
 
 export class WaitForStartView extends SVGView
 {

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { Dictionary } from "../src/ash";
+import { Dictionary } from 'ash';
 
 describe( 'Dictionary tests', () =>
 {

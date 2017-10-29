@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { keep, ComponentMatchingFamily, Engine, Entity, Node, NodeList } from "../src/ash";
+import { keep, ComponentMatchingFamily, Engine, Entity, Node, NodeList } from 'ash';
 
 
 class Point {

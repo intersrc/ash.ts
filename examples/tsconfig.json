@@ -18,12 +18,11 @@
     "suppressImplicitAnyIndexErrors": true,
 
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  },
-  "exclude": [
-    "node_modules",
-    "./tests",
-    "./src/ash/io",
-    "./src/examples"
-  ]
+    "experimentalDecorators": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "ash": [ "../src/ash" ]
+    }
+  }
 }

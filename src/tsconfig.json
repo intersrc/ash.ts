@@ -3,7 +3,7 @@
   "compilerOptions": {
 
     "target": "es5",
-    "module": "commonjs",
+    "module": "es6",
     "moduleResolution": "node",
 
     "declaration": true,
@@ -18,11 +18,9 @@
     "suppressImplicitAnyIndexErrors": true,
 
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-
-    "baseUrl": ".",
-    "paths": {
-      "ash": [ "../src/ash" ]
-    }
-  }
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "./ash/io"
+  ]
 }

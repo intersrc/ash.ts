@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { ComponentMatchingFamily, Engine, Entity, Node, NodeList } from "../src/ash";
+import { ComponentMatchingFamily, Engine, Entity, Node, NodeList } from 'ash';
 
 describe( 'Entity tests', () =>
 {

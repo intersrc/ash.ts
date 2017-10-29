@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { NodeList, Node, NodePool, Dictionary, keep } from '../src/ash';
+import { NodeList, Node, NodePool, Dictionary, keep } from 'ash';
 
 class Point {
     public x:number;

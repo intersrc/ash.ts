@@ -1,7 +1,7 @@
 ///// <reference path="../typings/main"/>
 //
 //import { assert, expect, should } from 'chai';
-//import { Signal0 } from "../src/ash"
+//import { Signal0 } from 'ash'
 //
 //describe( 'Signal0', () =>
 //{
